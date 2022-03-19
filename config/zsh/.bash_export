@@ -1,0 +1,13 @@
+export TMOUT=0
+export WORKON_HOME=~/.virtualenvs
+export PROJECT_HOME=~/pyprojects
+export EDITOR=vim
+export VISUAL=vim
+export HISTTIMEFORMAT="%F %T "
+
+export login_ldap="to_configure"
+export password_ldap="to_configure"
+
+export sqs_vpn="to_configure"
+export jb_tsb_vpn="to_configure"
+export jb_lsb_vpn="to_configure"
