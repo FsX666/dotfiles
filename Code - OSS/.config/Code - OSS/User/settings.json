@@ -1,0 +1,10 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "terminal.integrated.fontFamily": "MesloLGM Nerd Font Mono",
+    "terminal.external.linuxExec": "terminator",
+    "terminal.integrated.fontSize": 12,
+    "debug.console.fontSize": 12,
+    "markdown.preview.fontSize": 12,
+    "editor.fontSize": 12,
+    "python.defaultInterpreterPath": "/bin/python",
+}
