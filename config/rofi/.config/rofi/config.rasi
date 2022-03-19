@@ -1,0 +1,10 @@
+configuration{
+    display-drun: "Applications";
+    display-windows: "Windows";
+    show-icons: true;
+}
+
+//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+//@theme "/usr/share/rofi/themes/Monokai.rasi"
+@theme "/usr/share/rofi/themes/Monokai_by_FsX.rasi"

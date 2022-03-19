@@ -1,0 +1,791 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+;background = ${xrdb:color0:#222}
+background = #222
+background-alt = #444
+;foreground = ${xrdb:color7:#222}
+foreground = #dfdfdf
+foreground-alt = #555
+;primary = #ffb52a
+;primary = #82ccdd
+primary = #78e08f
+;primary = #c0392b
+;primary = #e67e22
+;primary = #3498db
+;primary = #95a5a6
+;primary = #1abc9c
+;primary = #A3CB38
+;primary = #C4E538
+;primary = #eb4d4b
+;primary = #ff7979
+secondary = #e60053
+alert = #bd2c40
+
+[bar/default]
+bottom = true
+
+monitor = ${env:MONITOR:HDMI-A-0}
+monitor-fallback = ${env:MONITOR:eDP}
+width = 100%
+height = 22
+;offset-x = 1%
+;offset-y = 1%
+;radius = 6.0
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-size = 1
+border-color = #00000000
+
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 1
+module-margin-right = 1
+
+
+font-0 = DejaVu Sans:size=10
+font-1 = fixed:pixelsize=10;1
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = Font Awesome 6 Free Solid:style=Solid:size=10
+font-4 = Font Awesome 6 Free Regular:style=Regular:size=10
+font-5 = Font Awesome 6 Brands Regular:style=Regular:size=10
+;font-6 = Weather Icons:style=Regular:size=12;0
+font-6 = siji:pixelsize=10;1
+
+
+;modules-left = i3
+modules-left = date weather-cloud weather-sun weather-sun-cloud weather-fog weather-sun-cloud-rain weather-cloud-rain weather-cloud-rain-heavy weather-snow weather-thunderstorm checkupdates VPN_SQS VPN_tsb VPN_lsb netstat-office-up netstat-office-down netstatwifi-up netstatwifi-down netstat-up netstat-down
+;modules-center = date weather-cloud weather-sun weather-sun-cloud weather-fog weather-sun-cloud-rain weather-cloud-rain weather-cloud-rain-heavy weather-snow weather-thunderstorm checkupdates VPN_SQS VPN_tsb VPN_lsb
+modules-center = i3
+;modules-right = netstat-office-up netstat-office-down eth-office netstatwifi-up netstatwifi-down wlan netstat-up netstat-down eth cpu memory filesystem battery alsa powermenu
+modules-right = eth-office wlan eth cpu memory filesystem battery alsa powermenu
+
+tray-position = none
+tray-padding = 1
+;tray-background = #0063ff
+
+separator =  
+
+;wm-restack = bspwm
+;wm-restack = i3
+
+override-redirect = false
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+;##############################################################################################################################################
+; ################################################################ i3
+;##############################################################################################################################################
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+
+; Only show workspaces on the same output as the bar
+pin-workspaces = false
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %index% %icon%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index% %icon%
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index% %icon%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index% %icon%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+; Separator in between workspaces
+;label-separator = |
+ws-icon-0 = 1:Web;
+ws-icon-1 = 2:Terms;
+ws-icon-2 = 3:Dev;
+ws-icon-3 = 4:Multi-screen;
+ws-icon-4 = 5;
+ws-icon-default = 
+
+;##############################################################################################################################################
+; ################################################################ CPU
+;##############################################################################################################################################
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+label = %percentage%%
+
+;##############################################################################################################################################
+; ################################################################ Memory
+;##############################################################################################################################################
+[module/memory]
+type = internal/memory
+interval = 5
+;format-prefix = " "
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+label = Free: %gb_free%
+
+;##############################################################################################################################################
+; ################################################################ Filesystem
+;##############################################################################################################################################
+[module/filesystem]
+type = internal/fs
+interval = 600
+
+mount-0 = /
+
+format-mounted= <label-mounted>
+format-mounted-prefix= " "
+format-mounted-prefix-foreground = ${colors.primary}
+label-mounted = Free: %free%
+;label-mounted-alt =  Free: %free%
+;label-unmounted = %mountpoint% not mounted
+;label-unmounted-foreground = ${colors.foreground-alt}
+
+
+
+;##############################################################################################################################################
+; ################################################################ Netstatwifi-up
+;##############################################################################################################################################
+[module/netstatwifi-up]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+format-connected-prefix= " " 
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %upspeed%"
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+
+;##############################################################################################################################################
+; ################################################################ Netstatwifi-down
+;##############################################################################################################################################
+[module/netstatwifi-down]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+format-connected-prefix = " "
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %downspeed% "
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+;##############################################################################################################################################
+; ################################################################ wifi
+;##############################################################################################################################################
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+
+format-connected-prefix-foreground = ${colors.primary}
+format-connected-prefix = " "
+format-connected = <ramp-signal> <label-connected>
+label-connected = %signal%% %essid%  
+
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+
+;##############################################################################################################################################
+; ################################################################ Netstat-up
+;##############################################################################################################################################
+[module/netstat-up]
+type = internal/network
+interface = enp5s0
+interval = 3.0
+;label-connected = "  %upspeed%  %downspeed% "
+format-connected-prefix= " " 
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %upspeed%"
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+
+;##############################################################################################################################################
+; ################################################################ Netstat-down
+;##############################################################################################################################################
+[module/netstat-down]
+type = internal/network
+interface = enp5s0
+interval = 3.0
+format-connected-prefix = " "
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %downspeed% "
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+;##############################################################################################################################################
+; ################################################################ ethernet
+;##############################################################################################################################################
+[module/eth]
+type = internal/network
+interface = enp5s0
+interval = 3.0
+
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.primary}
+label-connected = %local_ip%
+
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+
+;##############################################################################################################################################
+; ################################################################ Netstat-office-up
+;##############################################################################################################################################
+[module/netstat-office-up]
+type = internal/network
+interface = enp7s0f4u1u2
+interval = 3.0
+
+;label-connected = "  %upspeed%  %downspeed% "
+format-connected-prefix= " " 
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %upspeed%"
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+;##############################################################################################################################################
+; ################################################################ Netstat-office-down
+;##############################################################################################################################################
+[module/netstat-office-down]
+type = internal/network
+interface = enp7s0f4u1u2
+interval = 3.0
+
+;label-connected = "  %upspeed%  %downspeed% "
+format-connected-prefix = " "
+format-connected-prefix-foreground= ${colors.primary}
+format-connected = <label-connected>
+label-connected = " %downspeed% "
+
+format-disconnected = <label-disconnected>
+label-disconnected = ""
+
+
+;##############################################################################################################################################
+; ################################################################ ethernet-office
+;##############################################################################################################################################
+[module/eth-office]
+type = internal/network
+interface = enp7s0f4u1u2
+interval = 3.0
+
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.primary}
+label-connected = %local_ip%
+
+format-disconnected =
+
+
+;##############################################################################################################################################
+; ################################################################ battery
+;##############################################################################################################################################
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 92
+poll-interval = 60
+
+format-charging = <animation-charging> <label-charging>
+;format-charging-underline = #ffb52a
+
+format-discharging = <animation-discharging> <label-discharging>
+;format-discharging-underline = ${self.format-charging-underline}
+
+format-full-prefix = " "
+;format-full-prefix-foreground = ${colors.foreground-alt}
+format-full-prefix-foreground = ${colors.primary}
+;format-full-underline = ${self.format-charging-underline}
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = %percentage%%
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-foreground = #7ed6df
+animation-charging-framerate = 750
+
+animation-discharging-0 = 
+animation-discharging-1 = 
+animation-discharging-2 = 
+animation-discharging-foreground = #eb4d4b
+animation-discharging-framerate = 750
+
+;##############################################################################################################################################
+; ################################################################ date
+;##############################################################################################################################################
+[module/date]
+type = internal/date
+interval = 5
+
+;date = " "
+;date-alt = " %Y-%m-%d"
+;
+;time = %H:%M
+;time-alt = %H:%M
+
+
+date =
+date-alt = " %d-%m-%Y"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = ""
+format-prefix-foreground = ${colors.primary}
+
+label = %date% %time%
+
+
+;##############################################################################################################################################
+; ################################################################ alsa
+;##############################################################################################################################################
+[module/alsa]
+type = internal/alsa
+
+interval = 5
+master-soundcard = default
+master-mixer = Master
+
+;mapped = true
+
+format-volume-foreground = ${colors.primary}
+
+format-volume = <ramp-volume> <label-volume> 
+label-volume = %percentage%%
+label-volume-foreground = ${root.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = #eb4d4b
+label-muted = muted
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+;##############################################################################################################################################
+; ################################################################ powermenu
+;##############################################################################################################################################
+[module/powermenu]
+type = custom/menu
+
+expand-right = true
+
+format-spacing = 1
+
+label-open = 
+label-open-foreground = ${colors.primary}
+label-close =  cancel
+label-close-foreground = ${colors.secondary}
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 =  reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 =  poweroff
+menu-0-1-exec = menu-open-2
+menu-0-2 =  suspend
+menu-0-2-exec = menu-open-3
+
+menu-1-0 =  reboot
+menu-1-0-exec = sudo reboot
+menu-1-1 =  cancel
+menu-1-1-exec = menu-open-0
+
+
+menu-2-0 =  poweroff
+menu-2-0-exec = sudo poweroff
+menu-2-1 =  cancel
+menu-2-1-exec = menu-open-0
+
+menu-3-0 =  suspend
+menu-3-0-exec = systemctl suspend
+menu-3-1 =  cancel
+menu-3-1-exec = menu-open-0
+
+;##############################################################################################################################################
+; ################################################################ weather-sun
+;##############################################################################################################################################
+[module/weather-sun]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "10" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-sun-cloud
+;##############################################################################################################################################
+[module/weather-sun-cloud]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "11" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-cloud
+;##############################################################################################################################################
+[module/weather-cloud]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "12" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-fog
+;##############################################################################################################################################
+[module/weather-fog]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "13" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-sun-cloud-rain
+;##############################################################################################################################################
+[module/weather-sun-cloud-rain]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "14" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-cloud-rain
+;##############################################################################################################################################
+[module/weather-cloud-rain]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "15" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-cloud-rain-heavy
+;##############################################################################################################################################
+[module/weather-cloud-rain-heavy]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "16" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-snow
+;##############################################################################################################################################
+[module/weather-snow]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "17" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ weather-thunderstorm
+;##############################################################################################################################################
+[module/weather-thunderstorm]
+type = custom/script
+exec = /home/fsx/.config/polybar/weather_module.py
+exec-if = ping openweathermap.org -c 1 && if [[ "$(/home/fsx/.config/polybar/weather_module.py > /dev/null; echo $?)" == "18" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ VPN SQS
+;##############################################################################################################################################
+[module/VPN_SQS]
+type = custom/script
+exec = /home/fsx/.config/polybar/vpn_sqs_module.sh
+exec-if = /home/fsx/.config/polybar/vpn_sqs_module.sh
+interval = 60
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ VPN tsb
+;##############################################################################################################################################
+[module/VPN_tsb]
+type = custom/script
+exec = /home/fsx/.config/polybar/vpn_tsb_module.sh
+exec-if = /home/fsx/.config/polybar/vpn_tsb_module.sh
+interval = 60
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ VPN lsb
+;##############################################################################################################################################
+[module/VPN_lsb]
+type = custom/script
+exec = /home/fsx/.config/polybar/vpn_lsb_module.sh
+exec-if = /home/fsx/.config/polybar/vpn_lsb_module.sh
+interval = 60
+label-font = 1
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+;##############################################################################################################################################
+; ################################################################ checkupdates
+;##############################################################################################################################################
+[module/checkupdates]
+type = custom/script
+exec = checkupdates | wc -l
+exec-if = if [[ "$(checkupdates | wc -l)" != "0" ]]; then exit 0; else exit 1; fi
+interval = 1200
+label = Updates: %output%
+format-foreground = ${colors.foreground}
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
+
+;##############################################################################################################################################
+;################################################################### extraconf not used #######################################################
+;##############################################################################################################################################
+
+;##############################################################################################################################################
+; ################################################################ mpd
+;##############################################################################################################################################
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+;##############################################################################################################################################
+; ################################################################ temperature
+;##############################################################################################################################################
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
+
+;##############################################################################################################################################
+; ################################################################ pulseaudio
+;##############################################################################################################################################
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume> <bar-volume>
+label-volume = VOL %percentage%%
+label-volume-foreground = ${root.foreground}
+
+label-muted = 🔇 muted
+label-muted-foreground = #666
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+;##############################################################################################################################################
+; ################################################################ bspwm
+;##############################################################################################################################################
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+;##############################################################################################################################################
+; ################################################################ xwindow
+;##############################################################################################################################################
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+;##############################################################################################################################################
+; ################################################################ Keyboard
+;##############################################################################################################################################
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
